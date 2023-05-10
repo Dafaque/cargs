@@ -18,7 +18,7 @@ brews:
     folder: Formula
     caveats: "cargs -h"
     homepage: "https://github.com/Dafaque/cargs"
-    description: "WebSocket client and server generation tool"
+    description: "Config file properties to cli arguments converter"
     license: "TBA"
     skip_upload: false
     dependencies:
