@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"runtime/debug"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -24,8 +25,11 @@ func (k *keys) Set(value string) error {
 }
 
 func main() {
+
 	var k keys
 	var kv keys
+
+	ver := flag.Bool("version", false, "show version")
 
 	noDash := flag.Bool("no-dash", false, "prepend dashes into output flag keys")
 	eq := flag.Bool("eq", false, "split flag and value with \"=\" mark")
@@ -36,6 +40,14 @@ func main() {
 	flag.Var(&k, "v", "key to extract; -v example.a => ${example.a}")
 	flag.Var(&kv, "kv", "key to extract; return with flag name; -kv e=example.a => -e ${example.a}")
 	flag.Parse()
+
+	if *ver {
+		i, _ := debug.ReadBuildInfo()
+		fmt.Println(i.GoVersion)
+		fmt.Println(i.Main.Sum)
+		fmt.Println(i.Main.Version)
+		return
+	}
 
 	fmt.Fprintln(os.Stdout, strings.Join(run(*file, *encoding, *noDash, *eq, k, kv), " "))
 }
