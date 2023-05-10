@@ -43,9 +43,9 @@ func main() {
 
 	if *ver {
 		i, _ := debug.ReadBuildInfo()
+		fmt.Println(i.Main.Version)
 		fmt.Println(i.GoVersion)
 		fmt.Println(i.Main.Sum)
-		fmt.Println(i.Main.Version)
 		return
 	}
 
