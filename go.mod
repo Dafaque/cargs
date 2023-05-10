@@ -1,4 +1,4 @@
-module cargs
+module github.com/Dafaque/cargs
 
 go 1.20
 
