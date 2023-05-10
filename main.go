@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"strings"
@@ -36,7 +37,7 @@ func main() {
 	flag.Var(&kv, "kv", "key to extract; return with flag name; -kv e=example.a => -e ${example.a}")
 	flag.Parse()
 
-	fmt.Print(strings.Join(run(*file, *encoding, *noDash, *eq, k, kv), " "))
+	fmt.Fprintln(os.Stdout, strings.Join(run(*file, *encoding, *noDash, *eq, k, kv), " "))
 }
 
 func run(file, encoding string, noDash, eq bool, k, kv keys) []string {
@@ -50,15 +51,15 @@ func run(file, encoding string, noDash, eq bool, k, kv keys) []string {
 	case "json":
 		unmarshal = json.Unmarshal
 	default:
-		panic("Unknown encoding " + encoding)
+		log.Fatal("Unknown encoding " + encoding)
 	}
 	data, err := os.ReadFile(file)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	var source map[string]interface{} = make(map[string]interface{})
 	if err = unmarshal(data, &source); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	var args []string = make([]string, 0)
 	for _, key := range k {
@@ -68,7 +69,7 @@ func run(file, encoding string, noDash, eq bool, k, kv keys) []string {
 	for _, keyvalue := range kv {
 		comps := strings.Split(keyvalue, "=")
 		if len(comps) != 2 {
-			panic(fmt.Sprintf("invalid kv syntax at %s; Must be separate by \"=\"", keyvalue))
+			log.Fatal(fmt.Sprintf("invalid kv syntax at %s; Must be separate by \"=\"", keyvalue))
 		}
 
 		for _, v := range resolveMapKey(source, comps[1]) {
@@ -105,12 +106,12 @@ func resolveMapKey(m map[string]interface{}, key string) []string {
 	for _, k := range comonents {
 		val, exist := currentMap[comonents[currentKey]]
 		if !exist {
-			panic("map does not contain key " + k)
+			log.Fatal("map does not contain key " + k)
 		}
 		if currentKey != len(comonents)-1 {
 			mv, casted := val.(map[string]interface{})
 			if !casted {
-				panic(k + " is not a map")
+				log.Fatal(k + " is not a map")
 			}
 			currentMap = mv
 			currentKey++
