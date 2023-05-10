@@ -1,0 +1,13 @@
+example:
+  text: "textFlag"
+  bool: true
+  num: 1.1
+  array:
+    - one
+    - two
+  deep:
+    array:
+      - true
+      - false
+      - 1
+      - yes
