@@ -1,23 +1,23 @@
 brews:
-  - name: ws-gen
+  - name: cargs
     goarm: 6
     goamd64: v1
     tap:
       owner: Dafaque
-      name: homebrew-ws-gen
+      name: homebrew-cargs
       branch: main
       token: "{{ .Env.GITHUB_TOKEN }}"
       pull_request:
         enabled: true
         base: main
-    url_template: "https://github.com/Dafaque/ws-gen/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    url_template: "https://github.com/Dafaque/cargs/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     commit_author:
       name: Dafaque
       email: ihmiwtd@outlook.com
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     folder: Formula
-    caveats: "ws-gen -h"
-    homepage: "https://github.com/Dafaque/ws-gen"
+    caveats: "cargs -h"
+    homepage: "https://github.com/Dafaque/cargs"
     description: "WebSocket client and server generation tool"
     license: "TBA"
     skip_upload: false
