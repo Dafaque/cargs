@@ -3,7 +3,9 @@ Run `cargs -h` for help
 
 # install
 ### with go
-`go install github.com/Dafaque/cargs@v1.0.0`
+`go install github.com/Dafaque/cargs@v1.0.2`
+### With Homebrew
+`brew tap Dafaque/cargs && brew install cargs`
 
 # example
 urls.json
