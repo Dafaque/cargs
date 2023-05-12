@@ -13,6 +13,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// -ldflags "-X main.version=v1.0.2"
+var version string
+
 type keys []string
 
 func (k *keys) String() string {
@@ -43,9 +46,11 @@ func main() {
 
 	if *ver {
 		i, _ := debug.ReadBuildInfo()
-		fmt.Println(i.Main.Version)
+		fmt.Println(getBinVersion(i))
 		fmt.Println(i.GoVersion)
-		fmt.Println(i.Main.Sum)
+		if len(i.Main.Sum) > 0 {
+			fmt.Println(i.Main.Sum)
+		}
 		return
 	}
 
@@ -139,4 +144,11 @@ func resolveMapKey(m map[string]interface{}, key string) []string {
 
 	}
 	return result
+}
+
+func getBinVersion(bi *debug.BuildInfo) string {
+	if len(version) != 0 {
+		return version
+	}
+	return bi.Main.Version
 }
